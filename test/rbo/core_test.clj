@@ -1,6 +1,6 @@
-(ns clj-rbo.core-test
+(ns rbo.core-test
   (:require [midje.sweet :refer :all]
-            [clj-rbo.core :refer :all]))
+            [rbo.core :refer :all]))
 
 (facts
   (fact "rbo"

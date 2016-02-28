@@ -1,4 +1,4 @@
-# clj-rbo
+# rbo
 
 An implementation of Rank-Biased Overlap in Clojure
 

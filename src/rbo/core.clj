@@ -1,4 +1,4 @@
-(ns clj-rbo.core
+(ns rbo.core
   (:require [clojure.math.numeric-tower :refer [expt]]
             [clojure.set :as set]))
 

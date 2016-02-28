@@ -1,4 +1,4 @@
-(defproject clj-rbo "0.1.0-SNAPSHOT"
+(defproject rbo "0.1.0-SNAPSHOT"
   :description "An implementation of Rank-Biased Overlap in Clojure"
   :url "https://github.com/neverfox/clj-rbo"
   :license {:name "Eclipse Public License"
