@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :author "Roman Pearah"
             :year 2016}
-  :dependencies [[org.clojure/clojure "1.8.0"]]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/math.numeric-tower "0.0.4"]]
   :profiles {:dev {:dependencies [[midje "1.8.3"]]
                    :plugins [[lein-midje "3.2"]]}})

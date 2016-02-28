@@ -1,6 +1,55 @@
-(ns clj-rbo.core)
+(ns clj-rbo.core
+  (:require [clojure.math.numeric-tower :refer [expt]]
+            [clojure.set :as set]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn- min-count
+  [& args]
+  (apply min (map count args)))
+
+(defn intersection
+  "Return a set that is the intersection of the inputs to the length of the shorter input or a provided depth"
+  ([r1 r2] (intersection r1 r2 (min-count r1 r2)))
+  ([r1 r2 d] (set/intersection (set (take d r1)) (set (take d r2)))))
+
+(defn overlap
+  "Return the size of the intersection of the inputs to the length of the shorter input or a provided depth"
+  ([r1 r2] (overlap r1 r2 (min-count r1 r2)))
+  ([r1 r2 d] (count (intersection r1 r2 d))))
+
+(defn agreement
+  "Return the proportion of overlap of the inputs to the length of the shorter input or a provided depth"
+  ([r1 r2] (agreement r1 r2 (min-count r1 r2)))
+  ([r1 r2 d] (if (zero? d) 0 (/ (overlap r1 r2 d) d))))
+
+(defmulti ^:private rbo-mm
+          (fn [r1 r2 _]
+            (if (= (count r1) (count r2)) :even :uneven)))
+
+(defmethod rbo-mm :even
+  [r1 r2 p]
+  (let [k (count r1)
+        k-seq (range 1 (+ 1 k))
+        pow (partial expt p)
+        a (partial agreement r1 r2)]
+    (+ (* (a k) (pow k)) (* (/ (- 1 p) p) (reduce + (map #(* (a %) (pow %)) k-seq))))))
+
+(defmethod rbo-mm :uneven
+  [r1 r2 p]
+  (let [r1-count (count r1)
+        r2-count (count r2)
+        [l l-count s s-count] (if (> r1-count r2-count) [r1 r1-count r2 r2-count] [r2 r2-count r1 r1-count])
+        l-seq (range 1 (+ 1 l-count))
+        l-tail (take-last s-count l-seq)
+        pow (partial expt p)
+        a (partial agreement l s)
+        o (partial overlap l s)
+        a-s (a s-count)]
+    (+ (* (/ (- 1 p) p)
+          (+ (reduce + (map #(* (a %) (pow %)) l-seq))
+             (reduce + (map #(* a-s (/ (- % s-count) %) (pow %)) l-tail))))
+       (* (+ a-s (/ (- (o l-count) (o s-count)) l-count)) (pow l-count)))))
+
+(defn rbo
+  "Return the extrapolated rank-biased overlap of the inputs using a persistence of p (default: 0.9)"
+  ([r1 r2] (rbo r1 r2 0.9))
+  ([r1 r2 p] (rbo-mm r1 r2 p)))
