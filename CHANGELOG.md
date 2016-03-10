@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - 2016-03-10
+### Added
+- Tests for private functions
+
+### Changed
+- Use multiset intersection to accomodate lists with repeated values
+
+### Fixed
+- Fix determination of tail for uneven lists
+
 ## [0.1.1] - 2016-03-10
 ### Fixed
 - Fix determination of tail for uneven lists
