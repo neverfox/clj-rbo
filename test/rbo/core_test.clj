@@ -13,9 +13,11 @@
         (rbo ["a" "b"] ["a" "c"] 0.5) => 0.75
         (rbo ["a" "b"] ["b" "a"]) => 0.9
         (rbo ["a" "b"] ["a" "b"]) => 1.0
-        (rbo ["a" "b" "c"] ["a" "b" "c" "d"]) => (roughly 0.955)
-        (rbo [1 2 3] [1 2 3 4]) => (roughly 0.955)
-        (rbo (range 20) (range 30)) => (rbo (range 30) (range 20)))
+        (rbo ["a" "b" "c"] ["a" "b" "c" "d"]) => (roughly 1)
+        (rbo [1 2 3] [1 2 3 4]) => (roughly 1)
+        (rbo (range 20) (range 30)) => (rbo (range 30) (range 20))
+        (rbo (shuffle (range 30)) (shuffle (range 29))) => (do (partial <= 0)
+                                                               (partial >= 1)))
 
   (fact "intersection"
         (intersection nil nil) => #{}

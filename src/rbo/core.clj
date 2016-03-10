@@ -39,7 +39,7 @@
         r2-count (count r2)
         [l l-count s s-count] (if (> r1-count r2-count) [r1 r1-count r2 r2-count] [r2 r2-count r1 r1-count])
         l-seq (range 1 (+ 1 l-count))
-        l-tail (take-last s-count l-seq)
+        l-tail (take-last (- l-count s-count) l-seq)
         pow (partial expt p)
         a (partial agreement l s)
         o (partial overlap l s)
